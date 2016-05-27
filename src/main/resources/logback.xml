@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+    <property name="appName" value="myApp-md"/>
+    <!-- 将日志输出在当前项目的根目录下 -->
+    <property name="contextPath" value="/home/logs/airkisser"/>
+    <!-- 日志的上下文路径 -->
+    <property name="logPath" value="${contextPath}"/>
+    <!-- 配置日志的滚动时间 -->
+    <property name="maxHistory" value="90"/>
+
+    <contextName>${appName}</contextName>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{64} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="rollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/log-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <!-- 必须指定，否则不会往文件输出内容 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{64} - %msg%n</pattern>
+        </encoder>
+        <!--<append>false</append>-->
+        <prudent>false</prudent>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+
+    <logger name = "com.airkisser" level="debug"/>
+    <logger name = "org.springframework" level="warn" addtivity="false"/>
+
+</configuration>
